@@ -327,8 +327,8 @@ where
             .collect::<Result<_, Error<C>>>()
     }
 
-    /// Returns VerifiableSecretSharingCommitment from a iterator of serialized
-    /// CoefficientCommitments (e.g. a Vec<Vec<u8>>).
+    /// Returns VerifiableSecretSharingCommitment from an iterator of serialized
+    /// CoefficientCommitments (e.g. a [`Vec<Vec<u8>>`]).
     pub fn deserialize<I, V>(serialized_coefficient_commitments: I) -> Result<Self, Error<C>>
     where
         I: IntoIterator<Item = V>,
@@ -768,6 +768,60 @@ where
     /// Deserialize the struct from a slice of bytes.
     pub fn deserialize(bytes: &[u8]) -> Result<Self, Error<C>> {
         Deserialize::deserialize(bytes)
+    }
+}
+
+#[cfg(all(feature = "serialization", feature = "codec"))]
+impl<C> parity_scale_codec::Encode for PublicKeyPackage<C>
+where
+    C: Ciphersuite,
+{
+    fn encode(&self) -> Vec<u8> {
+        let tmp = self.serialize().expect("infallible");
+        let compact_len = parity_scale_codec::Compact(tmp.len() as u32);
+
+        let mut output = Vec::with_capacity(compact_len.size_hint() + tmp.len());
+
+        compact_len.encode_to(&mut output);
+        output.extend(tmp);
+
+        output
+    }
+}
+
+#[cfg(all(feature = "serialization", feature = "codec"))]
+impl<C> parity_scale_codec::Decode for PublicKeyPackage<C>
+where
+    C: Ciphersuite,
+{
+    fn decode<I: parity_scale_codec::Input>(
+        input: &mut I,
+    ) -> Result<Self, parity_scale_codec::Error> {
+        let input: Vec<u8> = parity_scale_codec::Decode::decode(input)?;
+        Self::deserialize(&input).map_err(|_| "Could not decode `SigningPackage<C>`".into())
+    }
+}
+
+#[cfg(all(feature = "serialization", feature = "codec"))]
+impl<C> scale_info::TypeInfo for PublicKeyPackage<C>
+where
+    C: Ciphersuite,
+{
+    type Identity = Self;
+
+    fn type_info() -> scale_info::Type {
+        scale_info::Type::builder()
+            .path(scale_info::Path::new_with_replace(
+                "PublicKeyPackage",
+                module_path!(),
+                &[],
+            ))
+            .type_params(scale_info::prelude::vec![])
+            .docs(&["DOCS."])
+            .composite(
+                scale_info::build::Fields::unnamed()
+                    .field(|f| f.ty::<Vec<u8>>().type_name("Vec<u8>")),
+            )
     }
 }
 
