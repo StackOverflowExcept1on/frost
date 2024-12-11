@@ -185,7 +185,7 @@ fn check_refresh_shares_with_dealer_fails_with_invalid_identifier() {
 fn check_refresh_shares_with_dkg() {
     let rng = thread_rng();
 
-    frost_core::tests::refresh::check_refresh_shares_with_dkg::<Secp256K1Sha256, _>(rng);
+    frost_core::tests::refresh::check_refresh_shares_with_dkg::<Secp256K1Keccak256, _>(rng);
 }
 
 #[test]

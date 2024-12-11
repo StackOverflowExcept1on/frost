@@ -284,7 +284,7 @@ fn main() -> ExitCode {
             "frost-secp256k1-evm",
             &[
                 "Secp256K1Keccak256",
-                "secp256k1 curve",
+                "secp256k1 curve (EVM)",
                 "Secp256K1",
                 "FROST(secp256k1, KECCAK-256)",
                 "FROST-secp256k1-KECCAK256-v1",
