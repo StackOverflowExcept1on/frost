@@ -10,7 +10,7 @@ use crate::{
     keys::PublicKeyPackage, Error, Field, Group, Identifier, Signature, SigningKey, SigningPackage,
     VerifyingKey,
 };
-use alloc::vec::Vec;
+use alloc::{borrow::ToOwned, vec::Vec};
 use rand_core::{CryptoRng, RngCore};
 
 use crate::Ciphersuite;
