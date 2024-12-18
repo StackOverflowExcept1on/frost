@@ -24,7 +24,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 document-features = "0.2.7"
-ed448-goldilocks-plus = { version = "0.13.1", features = ["alloc"], default-features = false }
+ed448-goldilocks-plus = { version = "0.13.2", git = "https://github.com/mikelodder7/Ed448-Goldilocks.git", branch = "main", features = ["zeroize"], default-features = false }
 frost-core = { path = "../frost-core", version = "2.0.0", default-features = false }
 frost-rerandomized = { path = "../frost-rerandomized", version = "2.0.0", default-features = false }
 rand_core = "0.6"
