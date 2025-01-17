@@ -4,6 +4,9 @@ Entries are listed in reverse chronological order.
 
 ## Unreleased
 
+* Added a new ciphersuite `frost-secp256k1-evm` that uses the secp256k1
+  elliptic curve with hash keccak256.
+
 ## 2.1.0
 
 * It is now possible to identify the culprit in `frost_core::keys::dkg::part3()`
