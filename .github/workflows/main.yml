@@ -74,9 +74,9 @@ jobs:
     - uses: dtolnay/rust-toolchain@master
       with:
         toolchain: stable
-        targets: thumbv6m-none-eabi
-    - run: cargo build -p frost-${{ matrix.crate }} --no-default-features --target thumbv6m-none-eabi
-    - run: cargo build -p frost-${{ matrix.crate }} --no-default-features --features serialization --target thumbv6m-none-eabi
+        targets: wasm32v1-none
+    - run: cargo build -p frost-${{ matrix.crate }} --no-default-features --target wasm32v1-none
+    - run: cargo build -p frost-${{ matrix.crate }} --no-default-features --features serialization --target wasm32v1-none
 
   test_beta:
     name: test on beta

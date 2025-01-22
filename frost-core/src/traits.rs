@@ -37,7 +37,19 @@ pub trait Field: Copy {
         + Sub<Output = Self::Scalar>;
 
     /// A unique byte array buf of fixed length N.
+    #[cfg(not(feature = "codec"))]
     type Serialization: Clone + AsRef<[u8]> + AsMut<[u8]> + for<'a> TryFrom<&'a [u8]> + Debug;
+
+    /// A unique byte array buf of fixed length N.
+    #[cfg(feature = "codec")]
+    type Serialization: Clone
+        + AsRef<[u8]>
+        + AsMut<[u8]>
+        + for<'a> TryFrom<&'a [u8]>
+        + Debug
+        + parity_scale_codec::Encode
+        + parity_scale_codec::Decode
+        + scale_info::TypeInfo;
 
     /// Returns the zero element of the field, the additive identity.
     fn zero() -> Self::Scalar;

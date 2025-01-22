@@ -111,6 +111,60 @@ pub mod round1 {
         }
     }
 
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> parity_scale_codec::Encode for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        fn encode(&self) -> Vec<u8> {
+            let tmp = self.serialize().expect("Could not serialize `Package<C>`");
+            let compact_len = parity_scale_codec::Compact(tmp.len() as u32);
+
+            let mut output = Vec::with_capacity(compact_len.size_hint() + tmp.len());
+
+            compact_len.encode_to(&mut output);
+            output.extend(tmp);
+
+            output
+        }
+    }
+
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> parity_scale_codec::Decode for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        fn decode<I: parity_scale_codec::Input>(
+            input: &mut I,
+        ) -> Result<Self, parity_scale_codec::Error> {
+            let input: Vec<u8> = parity_scale_codec::Decode::decode(input)?;
+            Self::deserialize(&input).map_err(|_| "Could not decode `Package<C>`".into())
+        }
+    }
+
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> scale_info::TypeInfo for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        type Identity = Self;
+
+        fn type_info() -> scale_info::Type {
+            scale_info::Type::builder()
+                .path(scale_info::Path::new_with_replace(
+                    "Package",
+                    module_path!(),
+                    &[],
+                ))
+                .type_params(scale_info::prelude::vec![])
+                .docs(&["The package that must be broadcast by each participant to all other participants between the first and second parts of the DKG protocol (round 1)."])
+                .composite(
+                    scale_info::build::Fields::unnamed()
+                        .field(|f| f.ty::<Vec<u8>>().type_name("Vec<u8>")),
+                )
+        }
+    }
+
     /// The secret package that must be kept in memory by the participant
     /// between the first and second parts of the DKG protocol (round 1).
     ///
@@ -266,6 +320,60 @@ pub mod round2 {
         /// Deserialize the struct from a slice of bytes.
         pub fn deserialize(bytes: &[u8]) -> Result<Self, Error<C>> {
             Deserialize::deserialize(bytes)
+        }
+    }
+
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> parity_scale_codec::Encode for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        fn encode(&self) -> Vec<u8> {
+            let tmp = self.serialize().expect("Could not serialize `Package<C>`");
+            let compact_len = parity_scale_codec::Compact(tmp.len() as u32);
+
+            let mut output = Vec::with_capacity(compact_len.size_hint() + tmp.len());
+
+            compact_len.encode_to(&mut output);
+            output.extend(tmp);
+
+            output
+        }
+    }
+
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> parity_scale_codec::Decode for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        fn decode<I: parity_scale_codec::Input>(
+            input: &mut I,
+        ) -> Result<Self, parity_scale_codec::Error> {
+            let input: Vec<u8> = parity_scale_codec::Decode::decode(input)?;
+            Self::deserialize(&input).map_err(|_| "Could not decode `Package<C>`".into())
+        }
+    }
+
+    #[cfg(all(feature = "serialization", feature = "codec"))]
+    impl<C> scale_info::TypeInfo for Package<C>
+    where
+        C: Ciphersuite,
+    {
+        type Identity = Self;
+
+        fn type_info() -> scale_info::Type {
+            scale_info::Type::builder()
+                .path(scale_info::Path::new_with_replace(
+                    "Package",
+                    module_path!(),
+                    &[],
+                ))
+                .type_params(scale_info::prelude::vec![])
+                .docs(&["A package that must be sent by each participant to some other participants in Round 2 of the DKG protocol. Note that there is one specific package for each specific recipient, in contrast to Round 1."])
+                .composite(
+                    scale_info::build::Fields::unnamed()
+                        .field(|f| f.ty::<Vec<u8>>().type_name("Vec<u8>")),
+                )
         }
     }
 
