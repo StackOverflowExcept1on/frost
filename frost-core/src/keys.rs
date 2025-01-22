@@ -773,14 +773,6 @@ fn validate_num_of_signers<C: Ciphersuite>(
     min_signers: u16,
     max_signers: u16,
 ) -> Result<(), Error<C>> {
-    if min_signers < 2 {
-        return Err(Error::InvalidMinSigners);
-    }
-
-    if max_signers < 2 {
-        return Err(Error::InvalidMaxSigners);
-    }
-
     if min_signers > max_signers {
         return Err(Error::InvalidMinSigners);
     }
