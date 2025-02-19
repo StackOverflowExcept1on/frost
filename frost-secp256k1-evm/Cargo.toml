@@ -1,6 +1,7 @@
 [package]
 name = "frost-secp256k1-evm"
 edition.workspace = true
+rust-version.workspace = true
 version.workspace = true
 authors.workspace = true
 readme = "README.md"
@@ -35,11 +36,8 @@ rand_chacha.workspace = true
 serde_json.workspace = true
 
 [features]
-nightly = []
-default = ["serialization", "cheater-detection", "std"]
+default = ["serialization", "cheater-detection"]
 #! ## Features
-## Enable standard library support.
-std = ["frost-core/std"]
 ## Enable `serde` support for types that need to be communicated. You
 ## can use `serde` to serialize structs with any encoder that supports
 ## `serde` (e.g. JSON with `serde_json`).
