@@ -6,6 +6,10 @@ Entries are listed in reverse chronological order.
 
 * Added a new ciphersuite `frost-secp256k1-evm` that uses the secp256k1
   elliptic curve with hash keccak256.
+* Added no-std support for frost-ed448 crate. This became possible after migration to `ed448-goldilocks-plus` (fork of
+  `ed448-goldilocks`).
+* MSRV has been bumped to Rust 1.81, making all crates no-std. The `std` and `nightly` features were removed from all
+  crates.
 
 ## 2.1.0
 
