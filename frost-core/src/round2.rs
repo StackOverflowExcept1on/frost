@@ -82,6 +82,60 @@ where
     }
 }
 
+#[cfg(feature = "codec")]
+impl<C> parity_scale_codec::Encode for SignatureShare<C>
+where
+    C: Ciphersuite,
+{
+    fn encode(&self) -> Vec<u8> {
+        let tmp = self.serialize();
+        let compact_len = parity_scale_codec::Compact(tmp.len() as u32);
+
+        let mut output = Vec::with_capacity(compact_len.size_hint() + tmp.len());
+
+        compact_len.encode_to(&mut output);
+        output.extend(tmp);
+
+        output
+    }
+}
+
+#[cfg(feature = "codec")]
+impl<C> parity_scale_codec::Decode for SignatureShare<C>
+where
+    C: Ciphersuite,
+{
+    fn decode<I: parity_scale_codec::Input>(
+        input: &mut I,
+    ) -> Result<Self, parity_scale_codec::Error> {
+        let input: Vec<u8> = parity_scale_codec::Decode::decode(input)?;
+        Self::deserialize(&input).map_err(|_| "Could not decode `SignatureShare<C>`".into())
+    }
+}
+
+#[cfg(feature = "codec")]
+impl<C> scale_info::TypeInfo for SignatureShare<C>
+where
+    C: Ciphersuite,
+{
+    type Identity = Self;
+
+    fn type_info() -> scale_info::Type {
+        scale_info::Type::builder()
+            .path(scale_info::Path::new_with_replace(
+                "SignatureShare",
+                module_path!(),
+                &[],
+            ))
+            .type_params(scale_info::prelude::vec![])
+            .docs(&["A participant's signature share, which the coordinator will aggregate with all other signer's shares into the joint signature."])
+            .composite(
+                scale_info::build::Fields::unnamed()
+                    .field(|f| f.ty::<Vec<u8>>().type_name("Vec<u8>")),
+            )
+    }
+}
+
 impl<C> Debug for SignatureShare<C>
 where
     C: Ciphersuite,
