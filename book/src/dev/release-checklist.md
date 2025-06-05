@@ -81,7 +81,7 @@ releases easier.
 
 - Publish it with `cargo publish -p frost-rerandomized`
 
-- Check if other crates are ready to be published: `for cs in ristretto255 ed25519 secp256k1-evm secp256k1-tr p256 ed448; do cargo publish -p frost-$cs --dry-run; done`. Fix any issues if needed.
+- Check if other crates are ready to be published: `for cs in ristretto255 ed25519 secp256k1 secp256k1-evm secp256k1-tr p256 ed448; do cargo publish -p frost-$cs --dry-run; done`. Fix any issues if needed.
 
     - If you get an error like this:
 
@@ -91,9 +91,9 @@ releases easier.
 
 - Draft and publish releases for each of those crates:
 
-    - Run `for cs in ristretto255 ed25519 secp256k1-evm secp256k1-tr p256 ed448; do gh release create "frost-$cs/v2.1.0" -n '' -t "frost-$cs v2.1.0" --latest=false; done` (replace both instances of the version)
+    - Run `for cs in ristretto255 ed25519 secp256k1 secp256k1-evm secp256k1-tr p256 ed448; do gh release create "frost-$cs/v2.1.0" -n '' -t "frost-$cs v2.1.0" --latest=false; done` (replace both instances of the version)
 
-- Publish those crates: `for cs in ristretto255 ed25519 secp256k1-evm secp256k1-tr p256 ed448; do cargo publish -p frost-$cs; done`
+- Publish those crates: `for cs in ristretto255 ed25519 secp256k1 secp256k1-evm secp256k1-tr p256 ed448; do cargo publish -p frost-$cs; done`
 
 
 ## Confirm
@@ -105,6 +105,7 @@ releases easier.
     - [Frost ed448](https://crates.io/crates/frost-ed448/versions)
     - [Frost p256](https://crates.io/crates/frost-p256/versions)
     - [Frost ristretto255](https://crates.io/crates/frost-ristretto255/versions)
+    - [Frost secp256k1](https://crates.io/crates/frost-secp256k1/versions)
     - [Frost secp256k1 evm](https://crates.io/crates/frost-secp256k1-evm/versions)
     - [Frost secp256k1 tr](https://crates.io/crates/frost-secp256k1-tr/versions)
     - [Frost rerandomized](https://crates.io/crates/frost-rerandomized/versions)
