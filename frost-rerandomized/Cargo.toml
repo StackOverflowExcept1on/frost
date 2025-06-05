@@ -31,9 +31,12 @@ default = ["serialization", "cheater-detection"]
 ## can use `serde` to serialize structs with any encoder that supports
 ## `serde` (e.g. JSON with `serde_json`).
 serde = ["frost-core/serde"]
+## Enable `parity-scale-codec` and `scale-info` support for types
+## that need to be communicated.
+codec = ["frost-core/codec"]
 # Exposes ciphersuite-generic tests for other crates to use
 test-impl = ["frost-core/test-impl", "serialization"]
 ## Enable cheater detection
 cheater-detection = ["frost-core/cheater-detection"]
-## Enable a default serialization format. Enables `serde`.
-serialization = ["serde", "frost-core/serialization"]
+## Enable a default serialization format. Enables `serde` and `codec`.
+serialization = ["serde", "codec", "frost-core/serialization"]

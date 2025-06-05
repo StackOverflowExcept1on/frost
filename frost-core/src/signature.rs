@@ -130,6 +130,62 @@ where
     }
 }
 
+#[cfg(feature = "codec")]
+impl<C> parity_scale_codec::Encode for Signature<C>
+where
+    C: Ciphersuite,
+{
+    fn encode(&self) -> Vec<u8> {
+        let tmp = self
+            .serialize()
+            .expect("Could not serialize `Signature<C>`");
+        let compact_len = parity_scale_codec::Compact(tmp.len() as u32);
+
+        let mut output = Vec::with_capacity(compact_len.size_hint() + tmp.len());
+
+        compact_len.encode_to(&mut output);
+        output.extend(tmp);
+
+        output
+    }
+}
+
+#[cfg(feature = "codec")]
+impl<C> parity_scale_codec::Decode for Signature<C>
+where
+    C: Ciphersuite,
+{
+    fn decode<I: parity_scale_codec::Input>(
+        input: &mut I,
+    ) -> Result<Self, parity_scale_codec::Error> {
+        let input: Vec<u8> = parity_scale_codec::Decode::decode(input)?;
+        Self::deserialize(&input).map_err(|_| "Could not decode `Signature<C>`".into())
+    }
+}
+
+#[cfg(feature = "codec")]
+impl<C> scale_info::TypeInfo for Signature<C>
+where
+    C: Ciphersuite,
+{
+    type Identity = Self;
+
+    fn type_info() -> scale_info::Type {
+        scale_info::Type::builder()
+            .path(scale_info::Path::new_with_replace(
+                "Signature",
+                module_path!(),
+                &[],
+            ))
+            .type_params(scale_info::prelude::vec![])
+            .docs(&["A Schnorr signature over some prime order group (or subgroup)."])
+            .composite(
+                scale_info::build::Fields::unnamed()
+                    .field(|f| f.ty::<Vec<u8>>().type_name("Vec<u8>")),
+            )
+    }
+}
+
 impl<C: Ciphersuite> core::fmt::Debug for Signature<C> {
     fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
         f.debug_struct("Signature")

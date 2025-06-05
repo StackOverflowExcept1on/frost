@@ -42,8 +42,11 @@ default = ["serialization", "cheater-detection"]
 ## can use `serde` to serialize structs with any encoder that supports
 ## `serde` (e.g. JSON with `serde_json`).
 serde = ["frost-core/serde"]
-## Enable a default serialization format. Enables `serde`.
-serialization = ["serde", "frost-core/serialization", "frost-rerandomized/serialization"]
+## Enable `parity-scale-codec` and `scale-info` support for types
+## that need to be communicated.
+codec = ["frost-core/codec"]
+## Enable a default serialization format. Enables `serde` and `codec`.
+serialization = ["serde", "codec", "frost-core/serialization", "frost-rerandomized/serialization"]
 ## Enable cheater detection
 cheater-detection = ["frost-core/cheater-detection", "frost-rerandomized/cheater-detection"]
 
