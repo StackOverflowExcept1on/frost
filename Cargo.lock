@@ -650,6 +650,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "frost-secp256k1"
+version = "3.0.0"
+dependencies = [
+ "criterion",
+ "document-features",
+ "frost-core",
+ "frost-rerandomized",
+ "hex",
+ "insta",
+ "k256",
+ "lazy_static",
+ "proptest",
+ "rand 0.8.5",
+ "rand_chacha 0.3.1",
+ "rand_core 0.6.4",
+ "serde_json",
+ "sha2",
+ "tokio",
+]
+
+[[package]]
 name = "frost-secp256k1-evm"
 version = "3.0.0"
 dependencies = [
