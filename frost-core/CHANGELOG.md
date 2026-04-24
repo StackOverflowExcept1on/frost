@@ -5,6 +5,9 @@ Entries are listed in reverse chronological order.
 
 ## Unreleased
 
+* Added a new ciphersuite `frost-secp256k1-evm` that uses the secp256k1
+  elliptic curve with hash keccak256.
+
 ## 3.0.0
 
 Refer to the `3.0.0-rc.0` entry below for the main changes if you are upgrading

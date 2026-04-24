@@ -650,7 +650,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "frost-secp256k1"
+name = "frost-secp256k1-evm"
 version = "3.0.0"
 dependencies = [
  "criterion",
@@ -666,7 +666,7 @@ dependencies = [
  "rand_chacha 0.3.1",
  "rand_core 0.6.4",
  "serde_json",
- "sha2",
+ "sha3",
  "tokio",
 ]
 
