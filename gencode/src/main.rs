@@ -292,6 +292,20 @@ fn main() -> ExitCode {
             ],
         ),
         (
+            "frost-secp256k1",
+            &[
+                "Secp256K1Sha256",
+                "secp256k1 curve",
+                "Secp256K1",
+                "FROST(secp256k1, SHA-256)",
+                "FROST-secp256k1-SHA256-v1",
+                "secp256k1_sha256",
+                "secp256k1",
+                "<S>",
+                "*This crate is not compatible with Bitcoin BIP-340 (Taproot) signatures. Use [frost-secp256k1-tr](https://crates.io/crates/frost-secp256k1-tr) instead*",
+            ],
+        ),
+        (
             "frost-secp256k1-evm",
             &[
                 "Secp256K1Keccak256",
